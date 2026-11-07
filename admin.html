@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrendMart Admin</title><meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:'Readex Pro',system-ui,sans-serif;background:#F4F7F6;color:#10201C}
+input,select,textarea{border:1px solid #DCE5E2;border-radius:.6rem;padding:.5rem .7rem;width:100%;background:#fff}
+.btn{background:#0E9F8E;color:#fff;font-weight:600;padding:.5rem 1rem;border-radius:.6rem}.btn.r{background:#C0392B}.btn.g{background:#6B7C77}
+.card{background:#fff;border:1px solid #DCE5E2;border-radius:.9rem}.tab.on{border-bottom:3px solid #0E9F8E;font-weight:600}</style></head>
+<body>
+<div id="login" class="min-h-screen flex items-center justify-center p-4 hidden"><form id="lf" class="card p-6 w-full max-w-sm space-y-3">
+  <h1 class="text-xl font-bold">لوحة تحكم TrendMart</h1>
+  <input id="le" type="email" placeholder="البريد" required><input id="lp" type="password" placeholder="كلمة المرور" required>
+  <p id="lerr" class="text-red-600 text-sm"></p><button class="btn w-full">دخول</button></form></div>
+<div id="app" class="max-w-5xl mx-auto p-4 hidden">
+  <div class="flex items-center gap-4 border-b mb-5"><button class="tab on py-3" data-t="products">المنتجات</button><button class="tab py-3" data-t="orders">الطلبات</button>
+  <button id="out" class="ms-auto text-sm">خروج</button></div>
+  <section id="products">
+    <form id="pf" class="card p-5 grid md:grid-cols-2 gap-3 mb-6">
+      <h2 class="md:col-span-2 font-bold">إضافة منتج جديد</h2>
+      <input name="title_ar" placeholder="العنوان بالعربية" required><input name="title_en" placeholder="Title (English)" required dir="ltr">
+      <textarea name="description_ar" placeholder="الوصف بالعربية" rows="2"></textarea><textarea name="description_en" placeholder="Description (English)" rows="2" dir="ltr"></textarea>
+      <select name="category"><option value="books">كتب</option><option value="stories">قصص</option><option value="coloring">تلوين</option><option value="activities">أنشطة</option><option value="templates">قوالب</option></select>
+      <input name="pages" type="number" min="1" placeholder="عدد الصفحات">
+      <input name="price_egp" type="number" step="0.01" placeholder="السعر بالجنيه" required><input name="price_usd" type="number" step="0.01" placeholder="السعر بالدولار" required>
+      <label class="text-sm">صورة الغلاف<input name="cover" type="file" accept="image/*" required></label>
+      <label class="text-sm">ملف المنتج (PDF/ZIP) — يُحفظ خاصًا<input name="file" type="file" required></label>
+      <label class="text-sm md:col-span-2">صورة معاينة (اختياري)<input name="preview" type="file" accept="image/*"></label>
+      <p id="perr" class="md:col-span-2 text-sm"></p><button class="btn md:col-span-2" id="psub">رفع ونشر المنتج</button></form>
+    <div id="plist" class="space-y-2"></div>
+  </section>
+  <section id="orders" class="hidden"><div id="olist" class="space-y-3"></div></section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script><script src="assets/admin.js"></script>
+</body></html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrendMart | حالة الطلب</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:'Readex Pro',system-ui,sans-serif;background:#F4F7F6;color:#10201C}
+@media(prefers-color-scheme:dark){body{background:#0B1512;color:#E8F1EE}input{background:#12211C!important;border-color:#223530!important}}
+input{border:1px solid #DCE5E2;border-radius:.6rem;padding:.55rem .8rem;width:100%;background:#fff;color:inherit}
+.btn{background:#0E9F8E;color:#fff;font-weight:600;padding:.6rem 1.1rem;border-radius:.6rem;display:block;text-align:center;width:100%}</style></head>
+<body class="min-h-screen flex items-center justify-center p-4">
+<main class="w-full max-w-md space-y-4">
+  <a href="index.html" class="text-xl font-bold">TrendMart</a>
+  <h1 class="text-2xl font-bold">حالة الطلب والتحميل</h1>
+  <form id="f" class="space-y-3">
+    <input id="order" placeholder="رقم الطلب (Order ID)" dir="ltr" required>
+    <input id="email" type="email" placeholder="البريد الإلكتروني" required>
+    <button class="btn">تحقق</button>
+  </form>
+  <div id="out" class="text-sm leading-relaxed" aria-live="polite"></div>
+</main>
+<script>
+const p=new URLSearchParams(location.search),out=document.getElementById('out');
+document.getElementById('order').value=p.get('order')||'';document.getElementById('email').value=p.get('email')||'';
+if(p.get('t'))document.getElementById('f').style.display='none';
+const msg={pending:'طلبك قيد المراجعة. سنتواصل معك فور تأكيد الدفع.',rejected:'تعذّر تأكيد الدفع. راسلنا على واتساب لمراجعة الطلب.',expired:'انتهت صلاحية رابط التحميل. راسلنا لتجديده.',not_found:'لم نجد طلبًا بهذه البيانات. تأكد من رقم الطلب والبريد.',error:'حدث خطأ. حاول لاحقًا.',bad_request:'أدخل رقم الطلب والبريد.',no_file:'لا يوجد ملف لهذا المنتج. راسلنا.'};
+async function check(qs){
+  out.textContent='…';
+  try{const r=await fetch('/api/download?'+qs),d=await r.json();
+    if(d.status==='approved'){out.innerHTML='<p class="mb-3">تم تأكيد الدفع ✓ — الرابط صالح لدقيقة واحدة، اضغط عند الجاهزية:</p>';
+      const a=document.createElement('a');a.className='btn';a.href=d.url;a.textContent='تحميل الملف';out.appendChild(a)}
+    else out.textContent=msg[d.status]||msg.error}catch{out.textContent=msg.error}
+}
+document.getElementById('f').onsubmit=e=>{e.preventDefault();check(new URLSearchParams({order:order.value.trim(),email:email.value.trim()}))};
+if(p.get('t'))check(new URLSearchParams({t:p.get('t')}));else if(p.get('order')&&p.get('email'))check(new URLSearchParams({order:p.get('order'),email:p.get('email')}));
+</script></body></html>

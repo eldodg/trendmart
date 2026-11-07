@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrendMart | كتب وقصص ومطبوعات رقمية</title>
+<meta name="description" content="TrendMart — Digital books, kids stories, coloring sheets, activities and templates. Instant delivery.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class'}</script>
+<style>
+:root{--bg:#F4F7F6;--ink:#10201C;--mute:#5B6F69;--card:#fff;--line:#DCE5E2;--ac:#0E9F8E;--ac2:#C8962E}
+.dark{--bg:#0B1512;--ink:#E8F1EE;--mute:#93A8A1;--card:#12211C;--line:#223530}
+body{font-family:'Readex Pro',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line)}
+.mute{color:var(--mute)}.line{border-color:var(--line)}
+.btn{background:var(--ac);color:#fff;font-weight:600;padding:.6rem 1.1rem;border-radius:.6rem;transition:filter .15s}
+.btn:hover{filter:brightness(1.1)}.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.gold{background:var(--ac2)}
+.chip{padding:.35rem .9rem;border-radius:999px;border:1px solid var(--line);font-size:.875rem}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input,select{background:var(--bg);border:1px solid var(--line);border-radius:.6rem;padding:.55rem .8rem;width:100%}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.stack>*{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.stack:hover>*:nth-child(1){transform:rotate(-12deg) translateX(-18px)}
+.stack:hover>*:nth-child(3){transform:rotate(12deg) translateX(18px)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="sticky top-0 z-40 backdrop-blur border-b line" style="background:color-mix(in srgb,var(--bg) 88%,transparent)">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center gap-4">
+    <a href="#" class="text-xl font-bold tracking-tight">Trend<span style="color:var(--ac)">Mart</span></a>
+    <nav class="hidden md:flex gap-6 text-sm mute ms-6">
+      <a href="#shop" data-i18n="shop"></a><a href="#about" data-i18n="about"></a><a href="#contact" data-i18n="contact"></a>
+    </nav>
+    <div class="ms-auto flex items-center gap-2">
+      <button id="langBtn" class="chip" aria-label="Language">EN</button>
+      <button id="themeBtn" class="chip" aria-label="Theme">◐</button>
+      <button id="cartBtn" class="btn" aria-label="Cart"><span data-i18n="cart"></span> <span id="cartN">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="max-w-6xl mx-auto px-4 pt-14 pb-16 grid md:grid-cols-2 gap-10 items-center">
+  <div>
+    <h1 class="text-4xl md:text-5xl font-bold leading-[1.25]" data-i18n="h1"></h1>
+    <p class="mt-5 mute max-w-md leading-relaxed" data-i18n="sub"></p>
+    <div class="mt-7 flex gap-3"><a href="#shop" class="btn" data-i18n="browse"></a><a href="#contact" class="btn alt" data-i18n="contact"></a></div>
+  </div>
+  <div id="heroStack" class="stack flex justify-center items-center h-72"></div>
+</section>
+
+<section id="shop" class="max-w-6xl mx-auto px-4 py-12">
+  <div class="flex flex-wrap items-center gap-3 mb-8">
+    <div id="cats" class="flex flex-wrap gap-2"></div>
+    <input id="q" type="search" class="md:max-w-xs ms-auto" data-i18n-ph="search">
+  </div>
+  <div id="grid" class="grid grid-cols-2 md:grid-cols-4 gap-5"></div>
+</section>
+
+<!-- ✏️ استبدل الآراء التالية بآراء عملائك الحقيقيين قبل الإطلاق -->
+<section class="max-w-6xl mx-auto px-4 py-12">
+  <h2 class="text-2xl font-bold mb-6" data-i18n="testi"></h2>
+  <div class="grid md:grid-cols-3 gap-5">
+    <figure class="card rounded-xl p-5"><blockquote data-i18n="t1"></blockquote><figcaption class="mute text-sm mt-3" data-i18n="n1"></figcaption></figure>
+    <figure class="card rounded-xl p-5"><blockquote data-i18n="t2"></blockquote><figcaption class="mute text-sm mt-3" data-i18n="n2"></figcaption></figure>
+    <figure class="card rounded-xl p-5"><blockquote data-i18n="t3"></blockquote><figcaption class="mute text-sm mt-3" data-i18n="n3"></figcaption></figure>
+  </div>
+</section>
+
+<section id="about" class="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-2 gap-8">
+  <div><h2 class="text-2xl font-bold mb-3" data-i18n="about"></h2><p class="mute leading-loose" data-i18n="aboutP"></p></div>
+  <ul class="card rounded-xl p-6 space-y-3 self-start text-sm">
+    <li data-i18n="f1"></li><li data-i18n="f2"></li><li data-i18n="f3"></li>
+  </ul>
+</section>
+
+<section id="contact" class="max-w-6xl mx-auto px-4 py-12">
+  <h2 class="text-2xl font-bold mb-5" data-i18n="contact"></h2>
+  <div class="flex flex-wrap gap-3">
+    <a id="waLink" class="btn" target="_blank" rel="noopener">WhatsApp</a>
+    <a id="tgLink" class="btn alt" target="_blank" rel="noopener">Telegram</a>
+    <a id="fbLink" class="btn alt" target="_blank" rel="noopener">Facebook</a>
+    <a id="igLink" class="btn alt" target="_blank" rel="noopener">Instagram</a>
+    <a href="download.html" class="btn gold" data-i18n="status"></a>
+  </div>
+</section>
+</main>
+
+<footer class="border-t line py-8 text-center text-sm mute">© <span id="yr"></span> TrendMart</footer>
+
+<div id="modal" class="hidden fixed inset-0 z-50 bg-black/60 p-4 overflow-y-auto" role="dialog" aria-modal="true">
+  <div id="mbody" class="card rounded-2xl max-w-lg mx-auto my-6 p-6 relative"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
