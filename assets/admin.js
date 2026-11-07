@@ -8,7 +8,6 @@ $('#lf').onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signI
 $('#out').onclick=async()=>{await sb.auth.signOut();init()};
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));$('#products').classList.toggle('hidden',b.dataset.t!=='products');$('#orders').classList.toggle('hidden',b.dataset.t!=='orders')});
 
-// دالة مساعدة لرفع الملفات إلى Cloudflare R2 عبر الـ API الوسيط
 async function uploadToR2(file, bucketName) {
   const formData = new FormData();
   formData.append('file', file);
@@ -16,7 +15,7 @@ async function uploadToR2(file, bucketName) {
   const res = await fetch('/api/upload', { method: 'POST', body: formData });
   const result = await res.json();
   if (!res.ok || result.error) throw new Error(result.error || 'فشل الرفع إلى الخزنة');
-  return result.path;
+  return result;
 }
 
 $('#pf').onsubmit=async e=>{
@@ -24,23 +23,22 @@ $('#pf').onsubmit=async e=>{
   try{
     const id=crypto.randomUUID(),cover=f.get('cover'),file=f.get('file'),prev=f.get('preview');
     
-    // 1. رفع صورة الغلاف إلى خزنة covers في Cloudflare R2
-    const coverFileName = `${id}-cover.${ext(cover)}`;
-    const coverPath = await uploadToR2(cover, 'covers');
-    // بناء الرابط العام لصورة الغلاف من نطاقك على Cloudflare
-    const cover_url = `${location.origin}/api/files?bucket=covers&name=${coverPath}`;
+    // 1. رفع صورة الغلاف والحصول على الرابط المباشر
+    const coverRes = await uploadToR2(cover, 'covers');
+    const cover_url = coverRes.url;
 
     // 2. رفع صورة المعاينة (اختياري)
     let preview_url = null;
     if (prev && prev.size) {
-      const prevPath = await uploadToR2(prev, 'covers');
-      preview_url = `${location.origin}/api/files?bucket=covers&name=${prevPath}`;
+      const prevRes = await uploadToR2(prev, 'covers');
+      preview_url = prevRes.url;
     }
 
-    // 3. رفع ملف المنتج الأصلي (PDF/ZIP) إلى خزنة products-files الخاصة (Private)
-    const file_path = await uploadToR2(file, 'files');
+    // 3. رفع ملف المنتج الأصلي (PDF/ZIP)
+    const fileRes = await uploadToR2(file, 'files');
+    const file_path = fileRes.path;
 
-    // 4. حفظ بيانات المنتج في قاعدة بيانات Supabase
+    // 4. حفظ البيانات في Supabase
     const row={id,cover_url,preview_url,file_path,pages:f.get('pages')?+f.get('pages'):null};
     ['title_ar','title_en','description_ar','description_en','category'].forEach(k=>row[k]=f.get(k));
     row.price_egp=+f.get('price_egp');row.price_usd=+f.get('price_usd');
